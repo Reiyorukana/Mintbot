@@ -78,7 +78,7 @@ async def get_audio(video_id,proxies):
     responese = await client.post(url=url,data=data)
     audiourl = responese.json()['downloadUrlX']
     response = await client.get(audiourl)
-    path = "data\ASMR\ASMR.mp3"
+    path = "data\Youtube\ASMR.mp3"
     with open(path, 'wb') as f:
         f.write(response.content)
     audiourl = file_chain(path)
