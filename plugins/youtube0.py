@@ -1,4 +1,5 @@
 import httpx
+import json
 import random
 
 from pytubefix import Channel, YouTube, Playlist, Stream
@@ -76,6 +77,11 @@ async def get_audio(video_id,proxies):
 
     responese = await client.post(url=url,data=data)
     audiourl = responese.json()['downloadUrlX']
+    response = await client.get(audiourl)
+    path = "data\ASMR\ASMR.mp3"
+    with open(path, 'wb') as f:
+        f.write(response.content)
+    audiourl = file_chain(path)
     return audiourl
 
 async def get_video(video_id):
@@ -106,3 +112,19 @@ async def get_img(video_id):
     with open(path, 'wb') as f:
         f.write(response.content)
     return path
+async def file_chain(path):     ##上传文件到ffsup.com并取得直链
+    headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
+    'Sec-Ch-Ua' : '"Microsoft Edge";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+    'Sec-Ch-Ua-Mobile' : '?0',
+    'Sec-Ch-Ua-Platform' : '"Windows"',
+    'Sec-Fetch-Dest' : 'empty',
+    'Sec-Fetch-Mode' : 'cors',
+    'Sec-Fetch-Site' : 'same-site',
+    }
+
+    url = 'https://upload.ffsup.com/'
+    file = {'file': open(path, 'rb')}
+    response = client.post(url, files=file, headers=headers)
+    data = json.loads(response.text)
+    return data['data']['url']
