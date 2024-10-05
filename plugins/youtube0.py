@@ -9,6 +9,10 @@ from plugins.newsEveryDay import get_headers
 with open('config/api.yaml', 'r', encoding='utf-8') as f:
     result = yaml.load(f.read(), Loader=yaml.FullLoader)
     proxy = result.get("proxy")
+    proxies = {
+        "http": proxy,
+        "https": proxy
+    }
     pyproxies = {       #pytubefix代理
         "http": proxy,
         "https": proxy
@@ -59,7 +63,7 @@ async def ASMR_random():
     pushed_videos.append(url)
     return athor,title,video_id,length
 
-async def get_audio(video_id,proxies):
+async def get_audio(video_id):
     url=f"https://www.youtube.com/watch?v={video_id}"
     yt = YouTube(url=url,proxies=pyproxies)
     title = yt.title
@@ -107,7 +111,7 @@ async def get_video(video_id):
 async def get_img(video_id):
     path =f"data/Youtube/{video_id}.jpg"
     url=f"https://i.ytimg.com/vi/{video_id}/hq720.jpg"    #下载视频封面
-
+    client = httpx.AsyncClient(headers=get_headers(),proxies=proxies,timeout=100)
     response = await client.get(url)
     with open(path, 'wb') as f:
         f.write(response.content)
