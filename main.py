@@ -322,7 +322,7 @@ if __name__ == '__main__':
                 userli = [i.id for i in friendList.data]
         await bot.send_friend_message(master,time1 + '\n已读取服务群聊:' + str(len(asf.data)) + '个\n'+time1 + '\n已读取有记录用户:' + str(len(userCount)) + '个')
         await sleep1(10)
-        await bot.send_friend_message(master,[time1 + '\nみんと部署成功~，欢迎使用',Image(path="data/fonts/master.png")])
+        await bot.send_friend_message(master,[time1 + '\nみんと部署成功~，欢迎使用',Image(path="data/fonts/master.jpg")])
 
 
     logger.info("当前语音合成模式：" + voicegg)
