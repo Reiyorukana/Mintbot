@@ -79,8 +79,8 @@ async def get_audio(video_id):
         'format': ''
     }
 
-    responese = await client.post(url=url,data=data)
-    audiourl = responese.json()['downloadUrlX']
+    response = await client.post(url=url,data=data)
+    audiourl = response.json()['downloadUrlX']
     response = await client.get(audiourl)
     path = "data\Youtube\ASMR.mp3"
     with open(path, 'wb') as f:
@@ -104,8 +104,8 @@ async def get_video(video_id):
         'format': 137
     }
 
-    responese = await client.post(url=url,data=data)
-    videourl = responese.json()['downloadUrlX']
+    response = await client.post(url=url,data=data)
+    videourl = response.json()['downloadUrlX']
     return videourl
 
 async def get_img(video_id):
@@ -129,6 +129,5 @@ async def file_chain(path):     ##上传文件到ffsup.com并取得直链
 
     url = 'https://upload.ffsup.com/'
     file = {'file': open(path, 'rb')}
-    response = client.post(url, files=file, headers=headers)
-    data = json.loads(response.text)
-    return data['data']['url']
+    response = await client.post(url, files=file, headers=headers)
+    return response.json()['data']['url']
