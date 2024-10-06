@@ -115,7 +115,9 @@ async def get_img(video_id):
     response = await client.get(url)
     with open(path, 'wb') as f:
         f.write(response.content)
-    return path
+    imgurl = file_chain(path)
+    return imgurl
+
 async def file_chain(path):     ##上传文件到ffsup.com并取得直链
     headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
